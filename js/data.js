@@ -96,20 +96,20 @@ const DATA = {
   ],
 
   alerts: [
-    { level: "alert", time: "08:42", title: "Groundwater drop — Borewell Cluster B", body: "Level fell 6 ft in 30 days. AI recommends rotating pumping and prioritising drip irrigation for Plot D." },
-    { level: "alert", time: "07:15", title: "Dengue outbreak risk: HIGH (ward 4)", body: "Model forecasts 11 cases by W41. Dispatch fogging team & source-reduction drive." },
-    { level: "warn",  time: "06:50", title: "Low soil moisture — Groundnut Plot D", body: "Moisture 34% (target 55%). Irrigate 22 mm before 10:00 to avoid 18% yield loss." },
-    { level: "warn",  time: "05:30", title: "Water tank below 45%", body: "Evening demand peak 18:00–20:00. Refill pump auto-scheduled 16:30." },
-    { level: "info",  time: "Yesterday", title: "Drone survey completed", body: "412 ha scanned. NDVI map updated. Pest hotspots flagged on Plot E (3 zones)." },
-    { level: "ok",    time: "Yesterday", title: "Solar farm hit record output", body: "1.84 MWh generated — 27% of the village's daily demand." },
+    { level: "alert", time: "08:42", title: "Borewell Cluster B — water table falling", body: "Level fell 6 ft in 30 days. Rotate pumping between clusters and move Plot D to drip irrigation." },
+    { level: "alert", time: "07:15", title: "Dengue cases rising in Ward 4", body: "11 cases expected by week 41 if nothing changes. Fogging team needed." },
+    { level: "warn",  time: "06:50", title: "Groundnut field (Plot D) is dry", body: "Moisture 34% (target 55%). Irrigate 22 mm before 10:00 to avoid 18% yield loss." },
+    { level: "warn",  time: "05:30", title: "Overhead tank below 45%", body: "Evening demand peak 18:00–20:00. Refill pump auto-scheduled 16:30." },
+    { level: "info",  time: "Yesterday", title: "Drone survey completed", body: "412 ha scanned. Crop health map updated. Possible pest damage in 3 spots on Plot E." },
+    { level: "ok",    time: "Yesterday", title: "Solar farm: best day this month", body: "1.84 MWh generated — 27% of the village's daily demand." },
   ],
 
   recommendations: [
-    { icon: "💧", title: "Shift Plot D to drip irrigation", impact: "Saves ~1.2 ML water / month", conf: 91 },
-    { icon: "🦟", title: "Fogging + larvicide in wards 3 & 4", impact: "Cuts dengue forecast by ~40%", conf: 84 },
-    { icon: "🌾", title: "Early paddy harvest window: Oct 18–24", impact: "Avoids monsoon lodging losses", conf: 79 },
-    { icon: "⚡", title: "Run water pumps 11:00–14:00 on solar", impact: "₹18,400 / month saved on grid power", conf: 88 },
-    { icon: "🛣️", title: "Repair culvert on Ward 2 road before monsoon", impact: "Protects 86 households from waterlogging", conf: 73 },
+    { title: "Move Plot D (groundnut) to drip irrigation", impact: "Saves about 1.2 ML of water a month", who: "Agri. officer" },
+    { title: "Fogging and larvicide in Wards 3 and 4", impact: "Could cut expected dengue cases by ~40%", who: "PHC / Sanitation" },
+    { title: "Harvest paddy between 18–24 Oct", impact: "Before heavy monsoon rain flattens the crop", who: "Farmers' group" },
+    { title: "Run water pumps 11 am–2 pm on solar power", impact: "Saves about ₹18,400 a month on the EB bill", who: "Water committee" },
+    { title: "Clear the Ward 2 culvert before the monsoon", impact: "86 houses flooded there last year", who: "Ward member" },
   ],
 
   sensors: [
@@ -119,7 +119,7 @@ const DATA = {
     { id: "AQ-001", kind: "Air quality",   loc: "Panchayat", value: "AQI 56", state: "ok" },
     { id: "WS-001", kind: "Weather",       loc: "Tower",  value: "31 °C · 68%", state: "ok" },
     { id: "EM-021", kind: "Energy meter",  loc: "Solar farm", value: "212 kW", state: "ok" },
-    { id: "CC-004", kind: "CCTV (CV)",     loc: "Market", value: "Crowd: moderate", state: "ok" },
+    { id: "CC-004", kind: "Market camera",     loc: "Market", value: "Crowd: normal", state: "ok" },
     { id: "WQ-003", kind: "Water quality", loc: "Periya Eri", value: "pH 7.4", state: "ok" },
   ],
 
@@ -131,12 +131,12 @@ const DATA = {
 
 // Canned answers for the simulated NLP assistant
 const ASSISTANT = [
-  { k: ["water", "tank", "groundwater", "borewell"], a: "💧 Overhead tank is at <b>41%</b>; the evening peak (18:00–20:00) needs ~175 kL/h. Borewell Cluster B has dropped <b>6 ft in 30 days</b>. I recommend rotating pumping across clusters A/C and moving Plot D to drip irrigation — projected saving <b>1.2 ML/month</b>." },
-  { k: ["crop", "yield", "paddy", "harvest", "farm", "agri"], a: "🌾 Yield forecast (LSTM + satellite NDVI): Paddy <b>5.8 t/ha</b> (+11.5%), Sugarcane <b>98 t/ha</b>, Groundnut <b>1.6 t/ha</b> (−24%, moisture stress). Best paddy harvest window: <b>Oct 18–24</b>, before heavy NE-monsoon rain." },
-  { k: ["disease", "dengue", "health", "fever", "hospital"], a: "🏥 Fever cases are up <b>3.4×</b> over 8 weeks; dengue risk in ward 4 is <b>HIGH (66/100)</b>. The model predicts ~11 dengue cases by W41 unless we act. PHC bed occupancy is 11/16. Suggested: fogging + larvicide in wards 3–4 and a door-to-door fever survey." },
-  { k: ["flood", "rain", "monsoon", "disaster", "weather"], a: "🌧️ NE monsoon onset expected in <b>~9 days</b>. October rain forecast: <b>164 mm</b>. Flood risk is <b>34/100</b> and rising. Periya Eri is at 63% — safe, but clear the Ward 2 culvert before onset." },
-  { k: ["energy", "solar", "power", "electric"], a: "⚡ The solar farm is producing <b>212 kW</b> right now (86% efficiency). Today's forecast: <b>1.8 MWh</b>, about 27% of demand. Moving pumping to 11:00–14:00 would save about <b>₹18,400/month</b>." },
-  { k: ["school", "education", "student", "literacy"], a: "🎓 Average attendance is <b>91%</b> across 2 schools (796 students). Literacy: 81.4%, digital literacy: 58%. 7 at-risk students were flagged for dropout counselling." },
-  { k: ["air", "aqi", "pollution", "environment"], a: "🌿 AQI is <b>56 (Satisfactory)</b>. The 30-day average is 55. No burning events were detected by CCTV/CV this week." },
-  { k: ["population", "people", "household", "census"], a: "👥 Ananthapuram: <b>4,862</b> residents in <b>1,134</b> households. 603 senior citizens (60+) — 97% are enrolled in pension schemes." },
+  { k: ["water", "tank", "groundwater", "borewell"], a: "Overhead tank is at <b>41%</b>; the evening peak (18:00–20:00) needs ~175 kL/h. Borewell Cluster B has dropped <b>6 ft in 30 days</b>. Rotating pumping across clusters A and C and moving Plot D to drip irrigation would save about <b>1.2 ML/month</b>." },
+  { k: ["crop", "yield", "paddy", "harvest", "farm", "agri"], a: "Yield forecast: Paddy <b>5.8 t/ha</b> (+11.5%), Sugarcane <b>98 t/ha</b>, Groundnut <b>1.6 t/ha</b> (−24%, moisture stress). Best paddy harvest window: <b>Oct 18–24</b>, before heavy NE-monsoon rain." },
+  { k: ["disease", "dengue", "health", "fever", "hospital"], a: "Fever cases are up <b>3.4×</b> over 8 weeks; dengue risk in ward 4 is <b>HIGH (66/100)</b>. The model predicts ~11 dengue cases by W41 unless we act. PHC bed occupancy is 11/16. Suggested: fogging + larvicide in wards 3–4 and a door-to-door fever survey." },
+  { k: ["flood", "rain", "monsoon", "disaster", "weather"], a: "NE monsoon onset expected in <b>~9 days</b>. October rain forecast: <b>164 mm</b>. Flood risk is <b>34/100</b> and rising. Periya Eri is at 63% — safe, but clear the Ward 2 culvert before onset." },
+  { k: ["energy", "solar", "power", "electric"], a: "The solar farm is producing <b>212 kW</b> right now (86% efficiency). Today's forecast: <b>1.8 MWh</b>, about 27% of demand. Moving pumping to 11:00–14:00 would save about <b>₹18,400/month</b>." },
+  { k: ["school", "education", "student", "literacy"], a: "Average attendance is <b>91%</b> across 2 schools (796 students). Literacy: 81.4%, digital literacy: 58%. 7 at-risk students were flagged for dropout counselling." },
+  { k: ["air", "aqi", "pollution", "environment"], a: "AQI is <b>56 (Satisfactory)</b>. The 30-day average is 55. No burning events were detected by CCTV/CV this week." },
+  { k: ["population", "people", "household", "census"], a: "Ananthapuram: <b>4,862</b> residents in <b>1,134</b> households. 603 senior citizens (60+) — 97% are enrolled in pension schemes." },
 ];

@@ -3,44 +3,60 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Village Digital Twin</title>
+  <title>Ananthapuram Village Twin</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&family=Fraunces:opsz,wght@9..144,600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+  <svg width="0" height="0" style="position:absolute">
+    <defs>
+      <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2zM9 4v14M15 6v14"/></symbol>
+      <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M5 19c0-8 5-13 14-14 0 9-5 14-13 14zM5 19l7-7"/></symbol>
+      <symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/></symbol>
+      <symbol id="i-cross" viewBox="0 0 24 24"><path d="M9 4h6v5h5v6h-5v5H9v-5H4V9h5z"/></symbol>
+      <symbol id="i-wind" viewBox="0 0 24 24"><path d="M3 9h11a3 3 0 1 0-3-3M3 15h15a3 3 0 1 1-3 3"/></symbol>
+      <symbol id="i-warn" viewBox="0 0 24 24"><path d="M12 4 2.5 20h19L12 4zM12 10v4M12 17v.5"/></symbol>
+      <symbol id="i-bank" viewBox="0 0 24 24"><path d="M3 9 12 4l9 5M5 10v8M10 10v8M14 10v8M19 10v8M3 20h18"/></symbol>
+      <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></symbol>
+    </defs>
+  </svg>
+
   <aside class="sidebar">
     <div class="brand">
-      <div class="logo">🌱</div>
-      <div><div class="brand-title">Village Twin</div><div class="brand-sub">AI · IoT · GIS</div></div>
+      <div class="seal">அ</div>
+      <div><div class="brand-title">Ananthapuram</div><div class="brand-sub">Village Digital Twin</div></div>
     </div>
     <nav>
-      <a class="nav active" data-view="overview"><span>🛰️</span>Overview</a>
-      <a class="nav" data-view="agri"><span>🌾</span>Agriculture</a>
-      <a class="nav" data-view="water"><span>💧</span>Water & Energy</a>
-      <a class="nav" data-view="health"><span>🏥</span>Health & Education</a>
-      <a class="nav" data-view="env"><span>🌿</span>Environment</a>
-      <a class="nav" data-view="risk"><span>⚠️</span>Disaster & Risk</a>
-      <a class="nav" data-view="gov"><span>🏛️</span>Governance</a>
+      <div class="nav-label">Monitor</div>
+      <a class="nav active" data-view="overview"><svg><use href="#i-map"/></svg>Village map</a>
+      <a class="nav" data-view="agri"><svg><use href="#i-leaf"/></svg>Farms &amp; crops</a>
+      <a class="nav" data-view="water"><svg><use href="#i-drop"/></svg>Water &amp; power</a>
+      <a class="nav" data-view="health"><svg><use href="#i-cross"/></svg>Health &amp; schools</a>
+      <a class="nav" data-view="env"><svg><use href="#i-wind"/></svg>Environment</a>
+      <div class="nav-label">Plan</div>
+      <a class="nav" data-view="risk"><svg><use href="#i-warn"/></svg>Disaster readiness</a>
+      <a class="nav" data-view="gov"><svg><use href="#i-bank"/></svg>Panchayat desk</a>
     </nav>
-    <div class="sim-box">
-      <div class="pill live"><i></i>SIMULATION LIVE</div>
-      <p>All data is demo data from simulated sensors, drones, and records.</p>
+    <div class="user">
+      <div class="avatar">RS</div>
+      <div><b>R. Selvi</b><div class="brand-sub">Panchayat Secretary</div></div>
     </div>
   </aside>
 
   <main>
     <header class="topbar">
       <div>
-        <h1 id="village-name">Ananthapuram</h1>
-        <div class="muted" id="village-meta"></div>
+        <div class="crumb" id="crumb">Tiruppur District › Avinashi Block › Ananthapuram</div>
+        <h1 id="page-title">Village map</h1>
       </div>
       <div class="top-right">
-        <div class="weather"><span class="big">⛅</span><div><b id="temp">31°C</b><div class="muted small" id="hum">Humidity 68%</div></div></div>
-        <div class="clock mono" id="clock">--:--:--</div>
-        <button class="btn primary" id="open-chat">✨ Ask AI</button>
+        <div class="stat-inline"><span class="muted">Weather</span><b id="temp">31°C</b><span class="muted">partly cloudy</span></div>
+        <div class="stat-inline"><span class="muted">Last sync</span><b class="mono" id="clock">--:--</b></div>
+        <button class="btn" id="open-chat"><svg><use href="#i-chat"/></svg>Ask the assistant</button>
       </div>
     </header>
+    <div class="demo-note">Demo mode — the readings on this dashboard are sample data, not live sensor feeds.</div>
 
     <!-- OVERVIEW -->
     <section class="view active" id="view-overview">
@@ -48,37 +64,38 @@
       <div class="grid g-main">
         <div class="card twin-card">
           <div class="card-h">
-            <div><h3>3D Digital Twin</h3><span class="muted small">Drag to rotate · scroll to zoom · click a building</span></div>
+            <div><h3>Village model</h3><span class="muted small">Drag to turn, scroll to zoom. Click a building or field for details.</span></div>
             <div class="seg" id="layer-seg">
-              <button class="on" data-layer="normal">Normal</button>
+              <button class="on" data-layer="normal">Map</button>
               <button data-layer="ndvi">Crop health</button>
-              <button data-layer="alerts">Alerts</button>
+              <button data-layer="alerts">Dry fields</button>
             </div>
           </div>
           <div id="twin"></div>
-          <div class="twin-info" id="twin-info"><b>Select an asset</b><span class="muted">Click any building or field to inspect its live data.</span></div>
+          <div class="twin-info" id="twin-info"><b>Nothing selected</b><span class="muted">Click a building or field on the model.</span></div>
+          <div class="map-legend"><span><i class="dot ok"></i>Normal</span><span><i class="dot warn"></i>Needs attention</span><span><i class="dot alert"></i>Act now</span></div>
         </div>
         <div class="card">
-          <div class="card-h"><h3>Live Alerts</h3><span class="pill red" id="alert-count"></span></div>
+          <div class="card-h"><h3>Today's alerts</h3><span class="count" id="alert-count"></span></div>
           <div class="alerts" id="alerts"></div>
         </div>
       </div>
       <div class="grid g3">
-        <div class="card"><div class="card-h"><h3>AI Recommendations</h3><span class="muted small">Decision support</span></div><div id="recs"></div></div>
-        <div class="card"><div class="card-h"><h3>IoT Sensor Stream</h3><span class="pill live"><i></i>126 online</span></div><div id="sensors"></div></div>
-        <div class="card"><div class="card-h"><h3>Energy today</h3><span class="muted small">kW</span></div><canvas id="c-energy-mini" height="220"></canvas></div>
+        <div class="card"><div class="card-h"><h3>Suggested actions</h3><span class="muted small">from this week's data</span></div><div id="recs"></div></div>
+        <div class="card"><div class="card-h"><h3>Field sensors</h3><span class="muted small" id="sensor-count">126 reporting</span></div><div id="sensors"></div></div>
+        <div class="card"><div class="card-h"><h3>Power today</h3><span class="muted small">kW</span></div><canvas id="c-energy-mini" height="220"></canvas></div>
       </div>
     </section>
 
     <!-- AGRICULTURE -->
     <section class="view" id="view-agri">
       <div class="grid g2">
-        <div class="card"><div class="card-h"><h3>Crop Yield Prediction</h3><span class="muted small">ML model · this season vs last</span></div><canvas id="c-yield" height="260"></canvas></div>
-        <div class="card"><div class="card-h"><h3>Drone NDVI Scan</h3><span class="muted small">Computer vision · 412 ha</span></div><canvas id="ndvi" class="ndvi"></canvas><div class="legend-bar"><span>Stressed</span><div></div><span>Healthy</span></div></div>
+        <div class="card"><div class="card-h"><h3>Expected yield this season</h3><span class="muted small">compared with last season (=100)</span></div><canvas id="c-yield" height="260"></canvas></div>
+        <div class="card"><div class="card-h"><h3>Drone survey — crop health</h3><span class="muted small">flown 27 Sep · 412 ha</span></div><canvas id="ndvi" class="ndvi"></canvas><div class="legend-bar"><span>Stressed</span><div></div><span>Healthy</span></div></div>
       </div>
       <div class="grid g2">
-        <div class="card"><div class="card-h"><h3>Field Status</h3></div><div id="farm-table"></div></div>
-        <div class="card"><div class="card-h"><h3>Rainfall — actual vs forecast</h3><span class="muted small">mm</span></div><canvas id="c-rain" height="260"></canvas></div>
+        <div class="card"><div class="card-h"><h3>Fields</h3></div><div id="farm-table"></div></div>
+        <div class="card"><div class="card-h"><h3>Rainfall</h3><span class="muted small">mm per month · Sep–Dec are forecasts</span></div><canvas id="c-rain" height="260"></canvas></div>
       </div>
     </section>
 
@@ -86,8 +103,8 @@
     <section class="view" id="view-water">
       <div class="grid g4" id="water-gauges"></div>
       <div class="grid g2">
-        <div class="card"><div class="card-h"><h3>Water demand forecast vs supply</h3><span class="muted small">kL/h · next 24 h</span></div><canvas id="c-water" height="260"></canvas></div>
-        <div class="card"><div class="card-h"><h3>Solar generation vs consumption</h3><span class="muted small">kW · today</span></div><canvas id="c-energy" height="260"></canvas></div>
+        <div class="card"><div class="card-h"><h3>Water use vs supply</h3><span class="muted small">kL per hour · next 24 h</span></div><canvas id="c-water" height="260"></canvas></div>
+        <div class="card"><div class="card-h"><h3>Solar farm vs village use</h3><span class="muted small">kW · today</span></div><canvas id="c-energy" height="260"></canvas></div>
       </div>
     </section>
 
@@ -95,8 +112,8 @@
     <section class="view" id="view-health">
       <div class="grid g4" id="health-kpis"></div>
       <div class="grid g2">
-        <div class="card"><div class="card-h"><h3>Disease outbreak prediction</h3><span class="muted small">* forecast weeks</span></div><canvas id="c-disease" height="260"></canvas></div>
-        <div class="card"><div class="card-h"><h3>School attendance</h3><span class="muted small">% by month</span></div><canvas id="c-attend" height="260"></canvas></div>
+        <div class="card"><div class="card-h"><h3>Cases reported at the PHC</h3><span class="muted small">weekly · dashed = expected</span></div><canvas id="c-disease" height="260"></canvas></div>
+        <div class="card"><div class="card-h"><h3>School attendance</h3><span class="muted small">% by month, both schools</span></div><canvas id="c-attend" height="260"></canvas></div>
       </div>
     </section>
 
@@ -104,22 +121,22 @@
     <section class="view" id="view-env">
       <div class="grid g4" id="env-kpis"></div>
       <div class="grid g2">
-        <div class="card"><div class="card-h"><h3>Air Quality Index — 30 days</h3></div><canvas id="c-aqi" height="260"></canvas></div>
-        <div class="card"><div class="card-h"><h3>Population by age</h3><span class="muted small">Village database</span></div><canvas id="c-demo" height="260"></canvas></div>
+        <div class="card"><div class="card-h"><h3>Air quality, last 30 days</h3><span class="muted small">AQI · sensor near panchayat office</span></div><canvas id="c-aqi" height="260"></canvas></div>
+        <div class="card"><div class="card-h"><h3>Residents by age</h3><span class="muted small">2025 household survey</span></div><canvas id="c-demo" height="260"></canvas></div>
       </div>
     </section>
 
     <!-- RISK -->
     <section class="view" id="view-risk">
       <div class="grid g2">
-        <div class="card"><div class="card-h"><h3>Risk radar</h3><span class="muted small">AI risk score 0–100</span></div><canvas id="c-risk" height="300"></canvas></div>
-        <div class="card"><div class="card-h"><h3>Early warning board</h3></div><div id="risk-list"></div></div>
+        <div class="card"><div class="card-h"><h3>Risk levels</h3><span class="muted small">score out of 100 · dashed line = safe limit</span></div><canvas id="c-risk" height="300"></canvas></div>
+        <div class="card"><div class="card-h"><h3>What to watch</h3></div><div id="risk-list"></div></div>
       </div>
-      <div class="card"><div class="card-h"><h3>Disaster scenario simulator</h3><span class="muted small">What-if analysis on the twin</span></div>
+      <div class="card"><div class="card-h"><div><h3>Flood check</h3><span class="muted small">Move the sliders to see what heavy rain would do to the village.</span></div></div>
         <div class="sim">
-          <label>Rainfall in 48 h <b id="sim-rain-v">120 mm</b><input type="range" id="sim-rain" min="0" max="400" value="120"></label>
-          <label>Lake storage <b id="sim-lake-v">63 %</b><input type="range" id="sim-lake" min="0" max="100" value="63"></label>
-          <label>Drain blockage <b id="sim-drain-v">20 %</b><input type="range" id="sim-drain" min="0" max="100" value="20"></label>
+          <label>Rain in next 48 h <b id="sim-rain-v">120 mm</b><input type="range" id="sim-rain" min="0" max="400" value="120"></label>
+          <label>Lake level <b id="sim-lake-v">63 %</b><input type="range" id="sim-lake" min="0" max="100" value="63"></label>
+          <label>Blocked drains <b id="sim-drain-v">20 %</b><input type="range" id="sim-drain" min="0" max="100" value="20"></label>
           <div class="sim-out" id="sim-out"></div>
         </div>
       </div>
@@ -128,29 +145,31 @@
     <!-- GOVERNANCE -->
     <section class="view" id="view-gov">
       <div class="grid g2">
-        <div class="card"><div class="card-h"><h3>Citizen grievances (NLP-classified)</h3><span class="muted small">This week</span></div><canvas id="c-griev" height="260"></canvas></div>
-        <div class="card"><div class="card-h"><h3>Scheme coverage</h3></div><div id="schemes"></div></div>
+        <div class="card"><div class="card-h"><h3>Complaints this week</h3><span class="muted small">grouped by topic</span></div><canvas id="c-griev" height="260"></canvas></div>
+        <div class="card"><div class="card-h"><h3>Scheme coverage</h3><span class="muted small">% of eligible households enrolled</span></div><div id="schemes"></div></div>
       </div>
-      <div class="card"><div class="card-h"><h3>System architecture</h3><span class="muted small">How the twin works</span></div>
+      <div class="card"><div class="card-h"><h3>How the data flows</h3></div>
         <div class="arch">
-          <div class="arch-col"><h4>Data sources</h4><span>📡 IoT sensors</span><span>🚁 Drones</span><span>🌦️ Weather station</span><span>📹 CCTV</span><span>🗂️ Village records</span></div>
+          <div class="arch-col"><h4>1 · Collect</h4><span>Soil, water &amp; air sensors</span><span>Drone surveys</span><span>Weather station</span><span>CCTV at market</span><span>Panchayat records</span></div>
           <div class="arrow">→</div>
-          <div class="arch-col"><h4>Cloud platform</h4><span>☁️ Data lake</span><span>🗺️ GIS layer</span><span>🔄 Real-time stream</span></div>
+          <div class="arch-col"><h4>2 · Store</h4><span>Cloud database</span><span>GIS map layers</span><span>Live data stream</span></div>
           <div class="arrow">→</div>
-          <div class="arch-col"><h4>AI engine</h4><span>📈 Machine learning</span><span>🧠 Deep learning</span><span>👁️ Computer vision</span><span>💬 NLP</span></div>
+          <div class="arch-col"><h4>3 · Analyse</h4><span>Yield &amp; demand forecasts</span><span>Outbreak prediction</span><span>Image checks (drone/CCTV)</span><span>Complaint sorting</span></div>
           <div class="arrow">→</div>
-          <div class="arch-col"><h4>Digital twin</h4><span>🏘️ 3D visualization</span><span>🔮 Predictions</span><span>🚨 Early warnings</span><span>✅ Decision support</span></div>
+          <div class="arch-col"><h4>4 · Act</h4><span>3D village model</span><span>Alerts to officers</span><span>Suggested actions</span><span>Early warnings</span></div>
         </div>
       </div>
     </section>
+
+    <footer>Ananthapuram Village Digital Twin · B.Sc CS (AI) final-year project · sample data only</footer>
   </main>
 
   <!-- Chat -->
   <div class="chat" id="chat">
-    <div class="chat-h"><b>✨ Village AI Assistant</b><button id="close-chat">✕</button></div>
+    <div class="chat-h"><div><b>Village assistant</b><div class="muted small">Answers from the dashboard data</div></div><button id="close-chat" aria-label="Close">✕</button></div>
     <div class="chat-body" id="chat-body"></div>
     <div class="chips" id="chips"></div>
-    <form class="chat-f" id="chat-f"><input id="chat-in" placeholder="Ask about water, crops, health…" autocomplete="off" /><button class="btn primary">Send</button></form>
+    <form class="chat-f" id="chat-f"><input id="chat-in" placeholder="e.g. How much water is in the tank?" autocomplete="off" /><button class="btn solid">Send</button></form>
   </div>
   <div class="toast" id="toast"></div>
 

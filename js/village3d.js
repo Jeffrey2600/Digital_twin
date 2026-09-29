@@ -1,8 +1,8 @@
 // Stylised 3D village built with Three.js primitives
 const Twin = (() => {
   let scene, camera, renderer, controls, raycaster, mouse, clickables = [], farmMeshes = [], beacons = [], drone, water;
-  const COLORS = { health: 0xf5566c, school: 0xf5b041, gov: 0x38bdf8, water: 0x5dade2, lake: 0x2e86c1, solar: 0x1f3a5f, market: 0xaf7ac5, tower: 0xd0d3d4 };
-  const STATUS = { ok: 0x2dd4a7, warn: 0xf5b041, alert: 0xf5566c };
+  const COLORS = { health: 0xc0503c, school: 0xd9a441, gov: 0x2d6690, water: 0x5dade2, lake: 0x2e86c1, solar: 0x1f3a5f, market: 0x9a6b4f, tower: 0xd0d3d4 };
+  const STATUS = { ok: 0x2e7a53, warn: 0xd08a14, alert: 0xc0392b };
 
   function mat(color, opts = {}) { return new THREE.MeshStandardMaterial({ color, roughness: 0.8, metalness: 0.05, ...opts }); }
 
@@ -88,12 +88,12 @@ const Twin = (() => {
   }
 
   function road(x, z, w, d) {
-    const r = new THREE.Mesh(new THREE.BoxGeometry(w, 0.1, d), mat(0x3b3f45)); r.position.set(x, 0.05, z); r.receiveShadow = true; return r;
+    const r = new THREE.Mesh(new THREE.BoxGeometry(w, 0.1, d), mat(0x9a948a)); r.position.set(x, 0.05, z); r.receiveShadow = true; return r;
   }
 
   function init(el, onPick) {
     scene = new THREE.Scene();
-    scene.fog = new THREE.Fog(0x0b1e2e, 110, 220);
+    scene.fog = new THREE.Fog(0xdfe9ee, 120, 240);
     camera = new THREE.PerspectiveCamera(45, el.clientWidth / el.clientHeight, 0.1, 500);
     camera.position.set(70, 62, 78);
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -104,19 +104,19 @@ const Twin = (() => {
 
     controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true; controls.maxPolarAngle = Math.PI / 2.2; controls.minDistance = 30; controls.maxDistance = 170;
-    controls.autoRotate = true; controls.autoRotateSpeed = 0.4;
+    controls.autoRotate = true; controls.autoRotateSpeed = 0.25;
     renderer.domElement.addEventListener("pointerdown", () => (controls.autoRotate = false));
 
-    scene.add(new THREE.HemisphereLight(0xcfe8ff, 0x1d3b2a, 0.7));
+    scene.add(new THREE.HemisphereLight(0xffffff, 0x5a6b45, 0.85));
     const sun = new THREE.DirectionalLight(0xfff1d6, 1.0);
     sun.position.set(60, 90, 30); sun.castShadow = true;
     sun.shadow.mapSize.set(2048, 2048);
     Object.assign(sun.shadow.camera, { left: -80, right: 80, top: 80, bottom: -80 });
     scene.add(sun);
 
-    const ground = new THREE.Mesh(new THREE.CylinderGeometry(72, 74, 3, 64), mat(0x4e7a3a));
+    const ground = new THREE.Mesh(new THREE.CylinderGeometry(72, 74, 3, 64), mat(0x7a9a55));
     ground.position.y = -1.5; ground.receiveShadow = true; scene.add(ground);
-    const edge = new THREE.Mesh(new THREE.CylinderGeometry(74, 70, 6, 64), mat(0x5a3f2b)); edge.position.y = -6; scene.add(edge);
+    const edge = new THREE.Mesh(new THREE.CylinderGeometry(74, 70, 6, 64), mat(0x8a6a4a)); edge.position.y = -6; scene.add(edge);
 
     scene.add(road(0, 0, 130, 4), road(0, 0, 4, 130), road(-18, 0, 3, 50));
     DATA.assets.forEach(a => scene.add(asset(a)));
@@ -143,7 +143,7 @@ const Twin = (() => {
     drone.add(body);
     [[1, 1], [1, -1], [-1, 1], [-1, -1]].forEach(([a, b]) => { const p = new THREE.Mesh(new THREE.CylinderGeometry(0.8, 0.8, 0.05, 16), new THREE.MeshBasicMaterial({ color: 0x9ad1ff, transparent: true, opacity: 0.5 })); p.position.set(a, 0.3, b); drone.add(p); });
     const light = new THREE.Mesh(new THREE.SphereGeometry(0.2), new THREE.MeshBasicMaterial({ color: 0xff3355 })); light.position.y = -0.3; drone.add(light);
-    const cone = new THREE.Mesh(new THREE.ConeGeometry(5, 18, 24, 1, true), new THREE.MeshBasicMaterial({ color: 0x2dd4a7, transparent: true, opacity: 0.08, side: THREE.DoubleSide }));
+    const cone = new THREE.Mesh(new THREE.ConeGeometry(5, 18, 24, 1, true), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.12, side: THREE.DoubleSide }));
     cone.position.y = -9; drone.add(cone);
     scene.add(drone);
 
@@ -169,7 +169,7 @@ const Twin = (() => {
     });
     drone.position.set(Math.cos(s * 0.25) * 42, 20 + Math.sin(s * 1.3) * 0.6, Math.sin(s * 0.25) * 42);
     drone.rotation.y = -s * 0.25;
-    if (water) water.material.emissive = new THREE.Color(0x0a3a5a).multiplyScalar(0.5 + Math.sin(s * 2) * 0.2);
+    if (water) water.material.emissive = new THREE.Color(0x0a3a5a).multiplyScalar(0.3 + Math.sin(s * 2) * 0.1);
     controls.update(); renderer.render(scene, camera);
   }
 
