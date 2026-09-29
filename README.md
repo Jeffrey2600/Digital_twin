@@ -13,7 +13,7 @@ python3 -m http.server 8000
 # open http://localhost:8000
 ```
 
-Or open `index.html` directly in a browser. Three.js and Chart.js load from a CDN.
+Or open `index.html` directly in a browser. Three.js and Chart.js are included in `js/lib`, so it works offline.
 
 ## Modules
 
